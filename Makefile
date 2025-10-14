@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/14 20:07:55 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/14 20:13:01 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS=
 OBJS=$(SRCS:.c=.o)
 
 CC=cc
-FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes -03
+FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes -O3
 
 LIBS_DIR=libs
 LIBS=libft/libft.a
@@ -34,7 +34,7 @@ $(NAME): $(OBJS) $(LIBS_DIR)/$(LIBS)
 
 %.a:
 	git -C $(dir $@) pull
-	make -C $(dir $@)
+	make bonus -C $(dir $@)
 
 clean:
 	rm -f (OBJS)
