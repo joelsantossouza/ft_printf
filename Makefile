@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/14 20:13:01 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/14 20:15:19 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBS_DIR=libs
 LIBS=libft/libft.a
 
 HEADERS_DIR=includes
-HEADERS=ft_printf.h
+HEADERS=libftprintf.h libft.h
 
 all: $(NAME)
 
