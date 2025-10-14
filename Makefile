@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/14 19:47:01 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/14 20:07:55 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,3 +32,14 @@ $(NAME): $(OBJS) $(LIBS_DIR)/$(LIBS)
 %.o: %.c $(HEADERS_DIR)/$(HEADERS)
 	$(CC) $(FLAGS) -c $< -o $@ -I$(HEADER_DIR)
 
+%.a:
+	git -C $(dir $@) pull
+	make -C $(dir $@)
+
+clean:
+	rm -f (OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
