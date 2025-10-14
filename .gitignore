@@ -1,0 +1,2 @@
+*.o
+.tests/ft_*_test
