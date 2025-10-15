@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 14:06:34 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:53:23 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	parse_length(const char *str, t_spec *spec, const char **endptr)
 
 const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char **endptr)
 {
+	*endptr = str + 1;
 	if (*str == 'd' || *str == 'i')
 		return (convert_int(args, spec));
 	else if (*str == 'u')
@@ -80,6 +81,5 @@ const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char
 		return (convert_uint(args, spec, "0x", "0123456789abcdef"));
 	else if (*str == 'X')
 		return (convert_uint(args, spec, "0X", "0123456789ABCDEF"));
-	*endptr = str + 1;
 	return (0);
 }

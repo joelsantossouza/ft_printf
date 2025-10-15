@@ -1,10 +1,7 @@
-while (*format)
+#include "../includes/libftprintf.h"
+
+int	main(void)
 {
-	ptr = format;
-	format = ft_strchrnul(format, '%');
-	if (*format && *(format + 1) == '%')
-		format++;
-	write(1, ptr, format - ptr);
-	if (!*format)
-		break ;
+	ft_printf("Im %d years old", 18);
+	return (0);
 }
