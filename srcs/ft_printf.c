@@ -6,12 +6,12 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 12:14:34 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:14:23 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdarg.h>
+#include "libftprintf.h"
 #include <unistd.h>
 
 static void	add_bytes(ssize_t add, int *store)
@@ -41,8 +41,8 @@ int	ft_printf(const char *format, ...)
 		{
 			ft_memset(&spec, 0, sizeof(t_spec));
 			parse_flags(format, &spec, &format);
-			parse_width(format, &spec, &format);
-			parse_precision(format, &spec, &format);
+			parse_width(format, args, &spec, &format);
+			parse_precision(format, args, &spec, &format);
 			parse_length(format, &spec, &format);
 			spec_str = get_spec_str(format, &spec, &format);
 			add_bytes(print_spec(spec_str, spec, STDOUT), &nbytes);

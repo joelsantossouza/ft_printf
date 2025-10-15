@@ -6,11 +6,12 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 12:13:27 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:06:34 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "libftprintf.h"
 #include <stdarg.h>
 
 void	parse_flags(const char *str, t_spec *spec, const char **endptr)
@@ -44,4 +45,41 @@ void	parse_width(const char *str, va_list args, t_spec *spec, const char **endpt
 	}
 	else
 		spec->width = ft_atol_base(*endptr, (char **) endptr, "0123456789");
+}
+
+void	parse_precision(const char *str, va_list args, t_spec *spec, const char **endptr)
+{
+	*endptr = str;
+	if (**endptr == '*')
+	{
+		spec->precision = va_arg(args, int);
+		(*endptr)++;
+	}
+	else
+		spec->precision = ft_atol_base(*endptr, (char **) endptr, "0123456789");
+}
+
+void	parse_length(const char *str, t_spec *spec, const char **endptr)
+{
+	*endptr = str;
+	if (!ft_strncmp(*endptr, "hh", 2) || !ft_strncmp(*endptr, "ll", 2))
+		*endptr += ft_strlcpy(spec->length, *endptr, sizeof(spec->length));
+	else if (ft_strchr("hl", **endptr))
+		*endptr += ft_strlcpy(spec->length, *endptr, 2);
+}
+
+const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char **endptr)
+{
+	if (*str == 'd' || *str == 'i')
+		return (convert_int(args, spec));
+	else if (*str == 'u')
+		return (convert_uint(args, spec, "", "0123456789"));
+	else if (*str == 'o')
+		return (convert_uint(args, spec, "0", "01234567"));
+	else if (*str == 'x')
+		return (convert_uint(args, spec, "0x", "0123456789abcdef"));
+	else if (*str == 'X')
+		return (convert_uint(args, spec, "0X", "0123456789ABCDEF"));
+	*endptr = str + 1;
+	return (0);
 }
