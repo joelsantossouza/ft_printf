@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 15:51:03 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:43:17 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,26 @@ static ssize_t	repeat_chr(const char chr, int times, int fd)
 
 static void	print_spec(const char *str, t_spec spec, int *nbytes, int fd)
 {
-	const int	len = ft_strlen(str);
+	const int	len = ft_strnlen(str, spec.precision);
+	const int	total_len = len + ft_strlen(spec.prefix) + (spec.precision - len);
 
 	if (spec.flags & LEFT_JUSTIFY)
 	{
 		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
 		add_bytes(write(fd, str, len), nbytes);
-		add_bytes(repeat_chr(spec.pad, spec.width - len, fd), nbytes);
+		add_bytes(repeat_chr(spec.pad, spec.width - total_len, fd), nbytes);
 	}
 	else
 	{
 		if (spec.pad == '0')
 		{
 			add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-			add_bytes(repeat_chr(spec.pad, spec.width - len, fd), nbytes);
+			add_bytes(repeat_chr(spec.pad, spec.width - total_len, fd), nbytes);
 			add_bytes(write(fd, str, len), nbytes);
 		}
 		else
 		{
-			add_bytes(repeat_chr(spec.pad, spec.width - len, fd), nbytes);
+			add_bytes(repeat_chr(spec.pad, spec.width - total_len, fd), nbytes);
 			add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
 			add_bytes(write(fd, str, len), nbytes);
 		}
