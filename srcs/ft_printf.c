@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 17:18:30 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:56:01 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@ static void	add_bytes(ssize_t add, int *store)
 		*store = -1;
 }
 
-static ssize_t	add_pad(const char chr, int times, char flags, int fd)
+static ssize_t	add_pad(t_spec spec, ..., int fd)
 {
 	size_t	nbytes;
 	ssize_t	ret;
 
 	nbytes = 0;
 	if (flags & PRECISION)
-		add_pad
+	{
+		spec.flags &= ~(PRECISION);
+		add_bytes(add_pad(spec, ..., fd), &nbytes);
+		spec.pad = ' ';
+	}
 	while (times-- > 0)
 	{
-		ret = ft_putchar_fd(chr, fd);
+		ret = ft_putchar_fd(spec.pad, fd);
 		if (ret < 0)
 			return (-1);
 		nbytes += ret;
