@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 14:03:29 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:09:03 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ typedef struct s_spec
 	int		precision;
 }	t_spec;
 
-void	parse_flags(const char *str, t_spec *spec, const char **endptr);
-void	parse_width(const char *str, va_list args, t_spec *spec, const char **endptr);
-void	parse_precision(const char *str, va_list args, t_spec *spec, const char **endptr);
-void	parse_length(const char *str, t_spec *spec, const char **endptr);
-
 const char	*convert_int(va_list args, t_spec *spec);
 const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const char *base);
+
+void		parse_flags(const char *str, t_spec *spec, const char **endptr);
+void		parse_width(const char *str, va_list args, t_spec *spec, const char **endptr);
+void		parse_precision(const char *str, va_list args, t_spec *spec, const char **endptr);
+void		parse_length(const char *str, t_spec *spec, const char **endptr);
+const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char **endptr);
 
 #endif
