@@ -3,7 +3,7 @@
 
 int	main(void)
 {
-	ft_printf("return: %d\n", ft_printf("Im %1.20o years old\n", 42));
-	printf("return: %d\n", printf("Im %1.20o years old\n", 42));
+	ft_printf("(myown)    %%Hello, %.100s\n", "joel");
+	printf(   "(original) %%Hello, %.100s\n", "joel");
 	return (0);
 }

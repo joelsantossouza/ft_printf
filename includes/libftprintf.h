@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 10:56:20 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:25:52 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_spec
 
 const char	*convert_int(va_list args, t_spec *spec);
 const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const char *base);
+const char	*convert_str(va_list args, t_spec *spec);
 
 void		parse_flags(const char *str, t_spec *spec, const char **endptr);
 void		parse_width(const char *str, va_list args, t_spec *spec, const char **endptr);

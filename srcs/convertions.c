@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 11:55:36 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:32:35 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,15 @@ const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const c
 		spec->pad = '0';
 	spec->precision = temp_max(len, spec->precision);
 	return ((const char *) str);
+}
+
+const char	*convert_str(va_list args, t_spec *spec)
+{
+	const char	*str = va_arg(args, char *);
+	const int	len = ft_strlen(str);
+
+	spec->pad = ' ';
+	if (!(spec->flags & PRECISION) || spec->precision > len)
+		spec->precision = len;
+	return (str);
 }
