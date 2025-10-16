@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/16 21:26:30 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/17 00:45:32 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS=ft_printf.c convertions.c parsers.c
 OBJS=$(addprefix $(SRCS_DIR)/, $(SRCS:.c=.o))
 
 CC=cc
-FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes
+FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes -O3
 AR=ar rcs
 
 LIBS_DIR=libs
