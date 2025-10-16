@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 22:07:38 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:35:44 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 
 # include <stdarg.h>
 
+# define IS_CHAR		1
+# define RIGHT_JUSTIFY	2
+# define LEFT_JUSTIFY	4
+# define FORCE_SIGN		8
+# define BLANK_SPACE	16
+# define ALTERN_FORM	32
+# define ZEROES_PAD		64
+# define PRECISION		128
+
 # define STDOUT			1
-# define IS_CHAR		(1 << 0)
-# define RIGHT_JUSTIFY	(1 << 1)
-# define LEFT_JUSTIFY	(1 << 2)
-# define FORCE_SIGN		(1 << 3)
-# define BLANK_SPACE	(1 << 4)
-# define ALTERN_FORM	(1 << 5)
-# define ZEROES_PAD		(1 << 6)
-# define PRECISION		(1 << 7)
+
+# define OCT			"01234567"
+# define DEC			"0123456789"
+# define LHEX			"0123456789abcdef"
+# define UHEX			"0123456789ABCDEF"
 
 typedef struct s_spec
 {
@@ -36,16 +42,20 @@ typedef struct s_spec
 }	t_spec;
 
 const char	*convert_int(va_list args, t_spec *spec);
-const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const char *base);
+const char	*convert_uint(va_list args, t_spec *spec,
+				const char *prefix, const char *base);
 const char	*convert_str(va_list args, t_spec *spec);
 const char	*convert_chr(va_list args, t_spec *spec);
 const char	*convert_ptr(va_list args, t_spec *spec);
 
 void		parse_flags(const char *str, t_spec *spec, const char **endptr);
-void		parse_width(const char *str, va_list args, t_spec *spec, const char **endptr);
-void		parse_precision(const char *str, va_list args, t_spec *spec, const char **endptr);
+void		parse_width(const char *str, va_list args, t_spec *spec,
+				const char **endptr);
+void		parse_precision(const char *str, va_list args, t_spec *spec,
+				const char **endptr);
 void		parse_length(const char *str, t_spec *spec, const char **endptr);
-const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char **endptr);
+const char	*get_spec_str(const char *str, va_list args, t_spec *spec,
+				const char **endptr);
 
 int			ft_printf(const char *format, ...);
 int			ft_fprintf(int fd, const char *format, ...);

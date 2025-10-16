@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 18:03:30 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:39:52 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	parse_flags(const char *str, t_spec *spec, const char **endptr)
 		spec->flags |= RIGHT_JUSTIFY;
 }
 
-void	parse_width(const char *str, va_list args, t_spec *spec, const char **endptr)
+void	parse_width(const char *str, va_list args, t_spec *spec,
+			const char **endptr)
 {
 	*endptr = str;
 	if (**endptr == '*')
@@ -46,10 +47,11 @@ void	parse_width(const char *str, va_list args, t_spec *spec, const char **endpt
 		(*endptr)++;
 	}
 	else
-		spec->width = ft_atol_base(*endptr, (char **) endptr, "0123456789");
+		spec->width = ft_atol_base(*endptr, (char **) endptr, DEC);
 }
 
-void	parse_precision(const char *str, va_list args, t_spec *spec, const char **endptr)
+void	parse_precision(const char *str, va_list args, t_spec *spec,
+			const char **endptr)
 {
 	*endptr = str;
 	if (**endptr == '.')
@@ -61,7 +63,7 @@ void	parse_precision(const char *str, va_list args, t_spec *spec, const char **e
 			(*endptr)++;
 		}
 		else
-			spec->precision = ft_atol_base(*endptr, (char **) endptr, "0123456789");
+			spec->precision = ft_atol_base(*endptr, (char **) endptr, DEC);
 	}
 }
 
@@ -74,19 +76,20 @@ void	parse_length(const char *str, t_spec *spec, const char **endptr)
 		*endptr += ft_strlcpy(spec->length, *endptr, 2);
 }
 
-const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char **endptr)
+const char	*get_spec_str(const char *str, va_list args, t_spec *spec,
+				const char **endptr)
 {
 	*endptr = str + 1;
 	if (*str == 'd' || *str == 'i')
 		return (convert_int(args, spec));
 	else if (*str == 'u')
-		return (convert_uint(args, spec, "", "0123456789"));
+		return (convert_uint(args, spec, "", DEC));
 	else if (*str == 'o')
-		return (convert_uint(args, spec, "0", "01234567"));
+		return (convert_uint(args, spec, "0", OCT));
 	else if (*str == 'x')
-		return (convert_uint(args, spec, "0x", "0123456789abcdef"));
+		return (convert_uint(args, spec, "0x", LHEX));
 	else if (*str == 'X')
-		return (convert_uint(args, spec, "0X", "0123456789ABCDEF"));
+		return (convert_uint(args, spec, "0X", UHEX));
 	else if (*str == 's')
 		return (convert_str(args, spec));
 	else if (*str == 'c')
