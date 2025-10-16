@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 17:58:58 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:33:59 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ const char	*convert_str(va_list args, t_spec *spec)
 
 const char	*convert_chr(va_list args, t_spec *spec)
 {
-	const char	*s = va_arg(args, char *);
+	static char	s[2];
 
+	*s = va_arg(args, int);
 	spec->pad = ' ';
 	spec->precision = 1;
 	return (s);
