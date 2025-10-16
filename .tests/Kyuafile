@@ -1,0 +1,7 @@
+syntax(2)
+
+test_suite("-- ft_printf --")
+
+if fs.exists("ft_printf_test") then
+	atf_test_program{name="ft_printf_test"}
+end

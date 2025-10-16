@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 15:39:25 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 19:43:36 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,34 @@ int	ft_printf(const char *format, ...)
 			parse_length(format, &spec, &format);
 			spec_str = get_spec_str(format, args, &spec, &format);
 			add_bytes(print_spec(spec_str, spec, STDOUT), &nbytes);
+		}
+	}
+	va_end(args);
+	return (nbytes);
+}
+
+int	ft_fprintf(int fd, const char *format, ...)
+{
+	t_spec		spec;
+	va_list		args;
+	int			nbytes;
+	const char	*spec_str;
+
+	nbytes = 0;
+	va_start(args, format);
+	while (*format && nbytes >= 0)
+	{
+		if (*format != '%' || *++format == '%')
+			add_bytes(ft_putchar_fd(*format++, fd), &nbytes);
+		else
+		{
+			ft_memset(&spec, 0, sizeof(t_spec));
+			parse_flags(format, &spec, &format);
+			parse_width(format, args, &spec, &format);
+			parse_precision(format, args, &spec, &format);
+			parse_length(format, &spec, &format);
+			spec_str = get_spec_str(format, args, &spec, &format);
+			add_bytes(print_spec(spec_str, spec, fd), &nbytes);
 		}
 	}
 	va_end(args);

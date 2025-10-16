@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 12:46:11 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 19:43:55 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void		parse_length(const char *str, t_spec *spec, const char **endptr);
 const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char **endptr);
 
 int			ft_printf(const char *format, ...);
+int			ft_fprintf(int fd, const char *format, ...);
 
 #endif
