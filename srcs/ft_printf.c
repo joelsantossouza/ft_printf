@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 10:55:14 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 11:08:11 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static void	print_spec(const char *str, t_spec spec, int *nbytes, int fd)
 	width_pad = spec.pad;
 	if (spec.flags & PRECISION)
 		width_pad = ' ';
-	if (spec.pad != ' ')
+	if (width_pad != ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
 	if (spec.flags & RIGHT_JUSTIFY)
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
-	if (spec.pad == ' ')
+	if (width_pad == ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
 	if (spec.flags & PRECISION)
 		add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
