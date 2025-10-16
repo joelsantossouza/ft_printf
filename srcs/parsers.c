@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 07:54:51 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:57:25 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	parse_flags(const char *str, t_spec *spec, const char **endptr)
 			break ;
 		(*endptr)++;
 	}
+	if (!(spec->flags & LEFT_JUSTIFY))
+		spec->flags |= RIGHT_JUSTIFY;
 }
 
 void	parse_width(const char *str, va_list args, t_spec *spec, const char **endptr)

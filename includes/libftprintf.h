@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 07:52:33 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:56:20 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 # include <stdarg.h>
 
 # define STDOUT			1
-# define LEFT_JUSTIFY	(1 << 0)
-# define FORCE_SIGN		(1 << 1)
-# define BLANK_SPACE	(1 << 2)
-# define ALTERN_FORM	(1 << 3)
-# define ZEROES_PAD		(1 << 4)
-# define PRECISION		(1 << 5)
+# define RIGHT_JUSTIFY	(1 << 0)
+# define LEFT_JUSTIFY	(1 << 1)
+# define FORCE_SIGN		(1 << 2)
+# define BLANK_SPACE	(1 << 3)
+# define ALTERN_FORM	(1 << 4)
+# define ZEROES_PAD		(1 << 5)
+# define PRECISION		(1 << 6)
 
 typedef struct s_spec
 {

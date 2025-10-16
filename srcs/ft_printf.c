@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 10:20:53 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:55:14 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,17 @@ static void	print_spec(const char *str, t_spec spec, int *nbytes, int fd)
 	width_pad = spec.pad;
 	if (spec.flags & PRECISION)
 		width_pad = ' ';
-	if (spec.flags & LEFT_JUSTIFY)
-	{
+	if (spec.pad != ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-		add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
-		add_bytes(write(fd, str, len), nbytes);
+	if (spec.flags & RIGHT_JUSTIFY)
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
-	}
-	else
-	{
-		if (spec.pad == '0')
-		{
-			add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-			add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
-			add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
-			add_bytes(write(fd, str, len), nbytes);
-		}
-		else
-		{
-			add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
-			add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-			add_bytes(write(fd, str, len), nbytes);
-		}
-	}
+	if (spec.pad == ' ')
+		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
+	if (spec.flags & PRECISION)
+		add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
+	add_bytes(write(fd, str, len), nbytes);
+	if (spec.flags & LEFT_JUSTIFY)
+		add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
 }
 
 int	ft_printf(const char *format, ...)
