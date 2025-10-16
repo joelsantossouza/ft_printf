@@ -6,13 +6,12 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 14:06:00 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:07:12 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "libftprintf.h"
-#include <stddef.h>
 
 const char	*convert_int(va_list args, t_spec *spec)
 {
@@ -89,7 +88,7 @@ const char	*convert_ptr(va_list args, t_spec *spec)
 	char	*str;
 
 	spec->pad = ' ';
-	spec->precision = ft_static_ultoa_base(va_args(args, size_t), &str, "0123456789abcdef");
+	spec->precision = ft_static_ultoa_base(va_arg(args, size_t), &str, "0123456789abcdef");
 	ft_strlcpy(spec->prefix, "0x", sizeof(spec->prefix));
 	return (str);
 }

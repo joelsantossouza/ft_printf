@@ -3,7 +3,7 @@
 
 int	main(void)
 {
-	ft_printf("(myown)    %%Hello, %.100s\n", "joel");
-	printf(   "(original) %%Hello, %.100s\n", "joel");
+	ft_printf("(myown)    %%Hello, %20.10d\n", 42);
+	printf(   "(original) %%Hello, %20.10d\n", 42);
 	return (0);
 }
