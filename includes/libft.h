@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 10:59:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/14 18:58:32 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:59:11 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ double	ft_ipow(double base, size_t exponent);
 void	ft_putlong_base_fd(ssize_t nbr, const char *base, int fd);
 void	ft_putulong_base_fd(size_t nbr, const char *base, int fd);
 size_t	ft_abs(ssize_t j);
+ssize_t	ft_max(ssize_t a, ssize_t b);
 size_t	ft_static_ltoa_base(ssize_t nbr, char **sptr, const char *base);
 size_t	ft_static_ultoa_base(size_t nbr, char **sptr, const char *base);
 

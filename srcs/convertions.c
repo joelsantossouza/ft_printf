@@ -6,12 +6,13 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 12:52:27 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:06:00 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "libftprintf.h"
+#include <stddef.h>
 
 const char	*convert_int(va_list args, t_spec *spec)
 {
