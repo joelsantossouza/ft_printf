@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 11:08:11 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:39:25 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,30 @@ static ssize_t	padding(const char pad, int times, int fd)
 	return (nbytes);
 }
 
-static void	print_spec(const char *str, t_spec spec, int *nbytes, int fd)
+static int	print_spec(const char *str, t_spec spec, int fd)
 {
 	const int	len = ft_strnlen(str, spec.precision);
 	const int	maxlen = ft_strlen(spec.prefix) + len + (spec.precision - len);
 	char		width_pad;
+	int			nbytes;
 
+	nbytes = 0;
 	width_pad = spec.pad;
 	if (spec.flags & PRECISION)
 		width_pad = ' ';
 	if (width_pad != ' ')
-		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-	if (spec.flags & RIGHT_JUSTIFY)
-		add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
-	if (width_pad == ' ')
-		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-	if (spec.flags & PRECISION)
-		add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
-	add_bytes(write(fd, str, len), nbytes);
-	if (spec.flags & LEFT_JUSTIFY)
-		add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
+		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
+	if (spec.flags & RIGHT_JUSTIFY && nbytes >= 0)
+		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
+	if (width_pad == ' ' && nbytes >= 0)
+		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
+	if (spec.flags & PRECISION && nbytes >= 0)
+		add_bytes(padding(spec.pad, spec.precision - len, fd), &nbytes);
+	if (nbytes >= 0)
+		add_bytes(write(fd, str, len), &nbytes);
+	if (spec.flags & LEFT_JUSTIFY && nbytes >= 0)
+		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
+	return (nbytes);
 }
 
 int	ft_printf(const char *format, ...)
@@ -83,7 +87,7 @@ int	ft_printf(const char *format, ...)
 			parse_precision(format, args, &spec, &format);
 			parse_length(format, &spec, &format);
 			spec_str = get_spec_str(format, args, &spec, &format);
-			print_spec(spec_str, spec, &nbytes, STDOUT);
+			add_bytes(print_spec(spec_str, spec, STDOUT), &nbytes);
 		}
 	}
 	va_end(args);

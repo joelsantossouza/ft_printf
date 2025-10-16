@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 14:07:12 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:47:35 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 const char	*convert_int(va_list args, t_spec *spec)
 {
-	char	*str;
+	char	*s;
 	int		len;
 
 	if (!ft_strcmp(spec->length, "hh"))
-		len = ft_static_ltoa_base((char) va_arg(args, int), &str, "0123456789");
+		len = ft_static_ltoa_base((char) va_arg(args, int), &s, "0123456789");
 	else if (!ft_strcmp(spec->length, "ll"))
-		len = ft_static_ltoa_base(va_arg(args, long long), &str, "0123456789");
+		len = ft_static_ltoa_base(va_arg(args, long long), &s, "0123456789");
 	else if (*spec->length == 'h')
-		len = ft_static_ltoa_base((short) va_arg(args, int), &str, "0123456789");
+		len = ft_static_ltoa_base((short) va_arg(args, int), &s, "0123456789");
 	else if (*spec->length == 'l')
-		len = ft_static_ltoa_base(va_arg(args, long), &str, "0123456789");
+		len = ft_static_ltoa_base(va_arg(args, long), &s, "0123456789");
 	else
-		len = ft_static_ltoa_base(va_arg(args, int), &str, "0123456789");
+		len = ft_static_ltoa_base(va_arg(args, int), &s, "0123456789");
 	if (spec->flags & FORCE_SIGN)
 		ft_strlcpy(spec->prefix, "+", sizeof(spec->prefix));
 	else if (spec->flags & BLANK_SPACE)
@@ -36,59 +36,59 @@ const char	*convert_int(va_list args, t_spec *spec)
 	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
 	spec->precision = ft_max(len, spec->precision);
-	return ((const char *) str);
+	return ((const char *) s);
 }
 
 const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const char *base)
 {
-	char	*str;
+	char	*s;
 	int		len;
 
 	if (!ft_strcmp(spec->length, "hh"))
-		len = ft_static_ultoa_base((unsigned char) va_arg(args, int), &str, base);
+		len = ft_static_ultoa_base((unsigned char) va_arg(args, int), &s, base);
 	else if (!ft_strcmp(spec->length, "ll"))
-		len = ft_static_ultoa_base(va_arg(args, unsigned long long), &str, base);
+		len = ft_static_ultoa_base(va_arg(args, unsigned long long), &s, base);
 	else if (*spec->length == 'h')
-		len = ft_static_ultoa_base((unsigned short) va_arg(args, int), &str, base);
+		len = ft_static_ultoa_base((unsigned short) va_arg(args, int), &s, base);
 	else if (*spec->length == 'l')
-		len = ft_static_ultoa_base(va_arg(args, unsigned long), &str, base);
+		len = ft_static_ultoa_base(va_arg(args, unsigned long), &s, base);
 	else
-		len = ft_static_ultoa_base(va_arg(args, unsigned int), &str, base);
+		len = ft_static_ultoa_base(va_arg(args, unsigned int), &s, base);
 	if (spec->flags & ALTERN_FORM)
 		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
 	spec->pad = ' ';
 	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
 	spec->precision = ft_max(len, spec->precision);
-	return ((const char *) str);
+	return ((const char *) s);
 }
 
 const char	*convert_str(va_list args, t_spec *spec)
 {
-	const char	*str = va_arg(args, char *);
-	const int	len = ft_strlen(str);
+	const char	*s = va_arg(args, char *);
+	const int	len = ft_strlen(s);
 
 	spec->pad = ' ';
 	if (!(spec->flags & PRECISION) || spec->precision > len)
 		spec->precision = len;
-	return (str);
+	return (s);
 }
 
 const char	*convert_chr(va_list args, t_spec *spec)
 {
-	const char	*str = va_arg(args, char *);
+	const char	*s = va_arg(args, char *);
 
 	spec->pad = ' ';
 	spec->precision = 1;
-	return (str);
+	return (s);
 }
 
 const char	*convert_ptr(va_list args, t_spec *spec)
 {
-	char	*str;
+	char	*s;
 
 	spec->pad = ' ';
-	spec->precision = ft_static_ultoa_base(va_arg(args, size_t), &str, "0123456789abcdef");
+	spec->precision = ft_static_ultoa_base(va_arg(args, size_t), &s, "0123456789abcdef");
 	ft_strlcpy(spec->prefix, "0x", sizeof(spec->prefix));
-	return (str);
+	return (s);
 }
