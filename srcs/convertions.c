@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 15:47:35 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 17:58:58 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ const char	*convert_str(va_list args, t_spec *spec)
 	const int	len = ft_strlen(s);
 
 	spec->pad = ' ';
+	if (!s)
+	{
+		spec->precision = 6;
+		return ("(null)");
+	}
 	if (!(spec->flags & PRECISION) || spec->precision > len)
 		spec->precision = len;
 	return (s);
@@ -85,10 +90,15 @@ const char	*convert_chr(va_list args, t_spec *spec)
 
 const char	*convert_ptr(va_list args, t_spec *spec)
 {
-	char	*s;
+	const char	*s = va_arg(args, void *);
 
 	spec->pad = ' ';
-	spec->precision = ft_static_ultoa_base(va_arg(args, size_t), &s, "0123456789abcdef");
+	if (!s)
+	{
+		spec->precision = 5;
+		return ("(nil)");
+	}
+	spec->precision = ft_static_ultoa_base((size_t) s, (char **) &s, "0123456789abcdef");
 	ft_strlcpy(spec->prefix, "0x", sizeof(spec->prefix));
 	return (s);
 }

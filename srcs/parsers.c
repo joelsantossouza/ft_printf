@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 12:25:36 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:03:30 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,9 @@ const char	*get_spec_str(const char *str, va_list args, t_spec *spec, const char
 		return (convert_uint(args, spec, "0X", "0123456789ABCDEF"));
 	else if (*str == 's')
 		return (convert_str(args, spec));
+	else if (*str == 'c')
+		return (convert_chr(args, spec));
+	else if (*str == 'p')
+		return (convert_ptr(args, spec));
 	return (0);
 }
