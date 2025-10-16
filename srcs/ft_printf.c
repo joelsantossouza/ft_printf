@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 19:43:36 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:45:31 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ static ssize_t	padding(const char pad, int times, int fd)
 
 static int	print_spec(const char *str, t_spec spec, int fd)
 {
-	const int	len = ft_strnlen(str, spec.precision);
-	const int	maxlen = ft_strlen(spec.prefix) + len + (spec.precision - len);
+	const int	len = ft_strnlen(str, spec.precision) + (spec.flags & IS_CHAR);
+	const int	prec_size = ft_max(0, spec.precision - len);
+	const int	maxlen = ft_strlen(spec.prefix) + len + prec_size;
 	char		width_pad;
 	int			nbytes;
 
@@ -58,7 +59,7 @@ static int	print_spec(const char *str, t_spec spec, int fd)
 	if (width_pad == ' ' && nbytes >= 0)
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
 	if (spec.flags & PRECISION && nbytes >= 0)
-		add_bytes(padding(spec.pad, spec.precision - len, fd), &nbytes);
+		add_bytes(padding(spec.pad, prec_size, fd), &nbytes);
 	if (nbytes >= 0)
 		add_bytes(write(fd, str, len), &nbytes);
 	if (spec.flags & LEFT_JUSTIFY && nbytes >= 0)

@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 21:33:59 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:21:10 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ const char	*convert_int(va_list args, t_spec *spec)
 	spec->pad = ' ';
 	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
-	spec->precision = ft_max(len, spec->precision);
+	if (!(spec->flags & PRECISION) || spec->precision || *s != '0')
+		spec->precision = ft_max(len, spec->precision);
 	return ((const char *) s);
 }
 
@@ -59,7 +60,8 @@ const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const c
 	spec->pad = ' ';
 	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
-	spec->precision = ft_max(len, spec->precision);
+	if (!(spec->flags & PRECISION) || spec->precision || *s != '0')
+		spec->precision = ft_max(len, spec->precision);
 	return ((const char *) s);
 }
 
@@ -85,7 +87,8 @@ const char	*convert_chr(va_list args, t_spec *spec)
 
 	*s = va_arg(args, int);
 	spec->pad = ' ';
-	spec->precision = 1;
+	spec->precision = 0;
+	spec->flags |= IS_CHAR;
 	return (s);
 }
 
