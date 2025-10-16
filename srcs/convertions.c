@@ -6,14 +6,14 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 11:15:09 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 11:55:36 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "libftprintf.h"
 
-ssize_t	temp_max(ssize_t n1, ssize_t n2)
+static ssize_t	temp_max(ssize_t n1, ssize_t n2)
 {
 	if (n1 > n2)
 		return (n1);
@@ -40,7 +40,7 @@ const char	*convert_int(va_list args, t_spec *spec)
 	else if (spec->flags & BLANK_SPACE)
 		ft_strlcpy(spec->prefix, " ", sizeof(spec->prefix));
 	spec->pad = ' ';
-	if ((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY) || (spec->flags & PRECISION))
+	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
 	spec->precision = temp_max(len, spec->precision);
 	return ((const char *) str);
@@ -64,7 +64,7 @@ const char	*convert_uint(va_list args, t_spec *spec, const char *prefix, const c
 	if (spec->flags & ALTERN_FORM)
 		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
 	spec->pad = ' ';
-	if ((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY) || (spec->flags & PRECISION))
+	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
 	spec->precision = temp_max(len, spec->precision);
 	return ((const char *) str);
