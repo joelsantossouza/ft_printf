@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 15:53:23 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 07:54:51 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,17 @@ void	parse_width(const char *str, va_list args, t_spec *spec, const char **endpt
 void	parse_precision(const char *str, va_list args, t_spec *spec, const char **endptr)
 {
 	*endptr = str;
-	if (**endptr == '*')
+	if (**endptr == '.')
 	{
-		spec->precision = va_arg(args, int);
-		(*endptr)++;
+		spec->flags |= PRECISION;
+		if (*++(*endptr) == '*')
+		{
+			spec->precision = va_arg(args, int);
+			(*endptr)++;
+		}
+		else
+			spec->precision = ft_atol_base(*endptr, (char **) endptr, "0123456789");
 	}
-	else
-		spec->precision = ft_atol_base(*endptr, (char **) endptr, "0123456789");
 }
 
 void	parse_length(const char *str, t_spec *spec, const char **endptr)

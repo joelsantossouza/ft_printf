@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 20:56:01 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:20:53 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,15 @@ static void	add_bytes(ssize_t add, int *store)
 		*store = -1;
 }
 
-static ssize_t	add_pad(t_spec spec, ..., int fd)
+static ssize_t	padding(const char pad, int times, int fd)
 {
 	size_t	nbytes;
 	ssize_t	ret;
 
 	nbytes = 0;
-	if (flags & PRECISION)
-	{
-		spec.flags &= ~(PRECISION);
-		add_bytes(add_pad(spec, ..., fd), &nbytes);
-		spec.pad = ' ';
-	}
 	while (times-- > 0)
 	{
-		ret = ft_putchar_fd(spec.pad, fd);
+		ret = ft_putchar_fd(pad, fd);
 		if (ret < 0)
 			return (-1);
 		nbytes += ret;
@@ -49,25 +43,31 @@ static ssize_t	add_pad(t_spec spec, ..., int fd)
 static void	print_spec(const char *str, t_spec spec, int *nbytes, int fd)
 {
 	const int	len = ft_strnlen(str, spec.precision);
-	const int	total_len = len + ft_strlen(spec.prefix) + (spec.precision - len);
+	const int	maxlen = ft_strlen(spec.prefix) + len + (spec.precision - len);
+	char		width_pad;
 
+	width_pad = spec.pad;
+	if (spec.flags & PRECISION)
+		width_pad = ' ';
 	if (spec.flags & LEFT_JUSTIFY)
 	{
 		add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
+		add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
 		add_bytes(write(fd, str, len), nbytes);
-		add_bytes(repeat_chr(spec.pad, spec.width - total_len, fd), nbytes);
+		add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
 	}
 	else
 	{
 		if (spec.pad == '0')
 		{
 			add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
-			add_bytes(repeat_chr(spec.pad, spec.width - total_len, fd), nbytes);
+			add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
+			add_bytes(padding(spec.pad, spec.precision - len, fd), nbytes);
 			add_bytes(write(fd, str, len), nbytes);
 		}
 		else
 		{
-			add_bytes(repeat_chr(spec.pad, spec.width - total_len, fd), nbytes);
+			add_bytes(padding(width_pad, spec.width - maxlen, fd), nbytes);
 			add_bytes(ft_putstr_fd(spec.prefix, fd), nbytes);
 			add_bytes(write(fd, str, len), nbytes);
 		}

@@ -3,7 +3,7 @@
 
 int	main(void)
 {
-	//ft_printf("Im %#010x years old\n", 42);
-	printf("Im %20.10s years old\n", "string");
+	ft_printf("Im %-5.3d years old\n", 42);
+	printf("Im %-5.3d years old\n", 42); 
 	return (0);
 }

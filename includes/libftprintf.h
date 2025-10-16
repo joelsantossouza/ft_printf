@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/15 15:32:09 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/16 07:52:33 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define BLANK_SPACE	(1 << 2)
 # define ALTERN_FORM	(1 << 3)
 # define ZEROES_PAD		(1 << 4)
+# define PRECISION		(1 << 5)
 
 typedef struct s_spec
 {
