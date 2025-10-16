@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/16 14:06:57 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/16 15:31:50 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ clean:
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -rf $(LIBS_DIR)/*
+	rm -rf $(dir $(LIBS))
 	rm -f $(NAME)
 
 re: fclean all
