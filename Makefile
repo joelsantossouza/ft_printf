@@ -6,14 +6,14 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/17 01:38:11 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/17 14:27:34 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libftprintf.a
 
 SRCS_DIR=srcs
-SRCS=ft_printf.c convertions.c parsers.c
+SRCS=ft_printf.c parsers.c types_config.c convert_types.c
 OBJS=$(addprefix $(SRCS_DIR)/, $(SRCS:.c=.o))
 
 CC=cc
