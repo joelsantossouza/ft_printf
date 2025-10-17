@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 01:36:49 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 14:21:10 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,25 +82,24 @@ void	parse_length(const char *str, t_spec *spec, const char **endptr)
 	}
 }
 
-const char	*get_spec_str(const char *str, va_list args, t_spec *spec,
-				const char **endptr)
+int	parse_spec(const char *str, va_list args, t_spec *spec, const char **endptr)
 {
 	*endptr = str + 1;
 	if (*str == 'd' || *str == 'i')
-		return (convert_int(args, spec));
+		return (int_config(args, spec));
 	else if (*str == 'u')
-		return (convert_uint(args, spec, "", DEC));
+		return (uint_config(args, spec, "", DEC));
 	else if (*str == 'o')
-		return (convert_uint(args, spec, "0", OCT));
+		return (uint_config(args, spec, "0", OCT));
 	else if (*str == 'x')
-		return (convert_uint(args, spec, "0x", LHEX));
+		return (uint_config(args, spec, "0x", LHEX));
 	else if (*str == 'X')
-		return (convert_uint(args, spec, "0X", UHEX));
+		return (uint_config(args, spec, "0X", UHEX));
 	else if (*str == 's')
-		return (convert_str(args, spec));
+		return (str_config(args, spec));
 	else if (*str == 'c')
-		return (convert_chr(args, spec));
+		return (chr_config(args, spec));
 	else if (*str == 'p')
-		return (convert_ptr(args, spec));
+		return (ptr_config(args, spec));
 	return (0);
 }

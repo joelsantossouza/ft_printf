@@ -6,106 +6,36 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 02:16:16 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 14:15:58 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "libftprintf.h"
 
-const char	*convert_int(va_list args, t_spec *spec)
+int	convert_int(va_list args, const char *length, char **s)
 {
-	char	*s;
-	int		len;
-
-	if (!ft_strcmp(spec->length, "hh"))
-		len = ft_static_ltoa_base((char)va_arg(args, int), &s, DEC) - (*s == '-');
-	else if (!ft_strcmp(spec->length, "ll"))
-		len = ft_static_ltoa_base(va_arg(args, long long), &s, DEC) - (*s == '-');
-	else if (*spec->length == 'h')
-		len = ft_static_ltoa_base((short)va_arg(args, int), &s, DEC) - (*s == '-');
-	else if (*spec->length == 'l')
-		len = ft_static_ltoa_base(va_arg(args, long), &s, DEC) - (*s == '-');
-	else
-		len = ft_static_ltoa_base(va_arg(args, int), &s, DEC) - (*s == '-');
-	if (*s == '-')
-		s += ft_strlcpy(spec->prefix, "-", sizeof(spec->prefix));
-	else if (spec->flags & FORCE_SIGN)
-		ft_strlcpy(spec->prefix, "+", sizeof(spec->prefix));
-	else if (spec->flags & BLANK_SPACE)
-		ft_strlcpy(spec->prefix, " ", sizeof(spec->prefix));
-	spec->pad = ' ';
-	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
-		spec->pad = '0';
-	if (!(spec->flags & PRECISION) || spec->precision || *s != '0')
-		spec->precision = ft_max(len, spec->precision);
-	return ((const char *)s);
+	if (!ft_strcmp(length, "hh"))
+		return (ft_static_ltoa_base((char) va_arg(args, int), s, DEC));
+	else if (!ft_strcmp(length, "ll"))
+		return (ft_static_ltoa_base(va_arg(args, long long), s, DEC));
+	else if (*length == 'h')
+		return (ft_static_ltoa_base((short) va_arg(args, int), s, DEC));
+	else if (*length == 'l')
+		return (ft_static_ltoa_base(va_arg(args, long), s, DEC));
+	return (ft_static_ltoa_base(va_arg(args, int), s, DEC));
 }
 
-const char	*convert_uint(va_list args, t_spec *spec,
-				const char *prefix, const char *base)
+int	convert_uint(va_list args, const char *length, const char *base, char **s)
 {
-	char	*s;
-	int		len;
-
-	if (!ft_strcmp(spec->length, "hh"))
-		len = ft_static_ultoa_base((unsigned char)va_arg(args, int), &s, base);
-	else if (!ft_strcmp(spec->length, "ll"))
-		len = ft_static_ultoa_base(va_arg(args, unsigned long long), &s, base);
-	else if (*spec->length == 'h')
-		len = ft_static_ultoa_base((unsigned short)va_arg(args, int), &s, base);
-	else if (*spec->length == 'l')
-		len = ft_static_ultoa_base(va_arg(args, unsigned long), &s, base);
-	else
-		len = ft_static_ultoa_base(va_arg(args, unsigned int), &s, base);
-	if (spec->flags & ALTERN_FORM)
-		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
-	spec->pad = ' ';
-	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
-		spec->pad = '0';
-	if (!(spec->flags & PRECISION) || spec->precision || *s != '0')
-		spec->precision = ft_max(len, spec->precision);
-	return ((const char *)s);
-}
-
-const char	*convert_str(va_list args, t_spec *spec)
-{
-	const char	*s = va_arg(args, char *);
-	const int	len = ft_strlen(s);
-
-	spec->pad = ' ';
-	if (!s)
-	{
-		spec->precision = 6;
-		return ("(null)");
-	}
-	if (!(spec->flags & PRECISION) || spec->precision > len)
-		spec->precision = len;
-	return (s);
-}
-
-const char	*convert_chr(va_list args, t_spec *spec)
-{
-	static char	s[2];
-
-	*s = va_arg(args, int);
-	spec->pad = ' ';
-	spec->precision = 0;
-	spec->flags |= IS_CHAR;
-	return (s);
-}
-
-const char	*convert_ptr(va_list args, t_spec *spec)
-{
-	const char	*s = va_arg(args, void *);
-
-	spec->pad = ' ';
-	if (!s)
-	{
-		spec->precision = 5;
-		return ("(nil)");
-	}
-	spec->precision = ft_static_ultoa_base((size_t)s, (char **)&s, LHEX);
-	ft_strlcpy(spec->prefix, "0x", sizeof(spec->prefix));
-	return (s);
+	//FIND TYPEDEFS TO UNSIGNEDS
+	if (!ft_strcmp(length, "hh"))
+		return (ft_static_ultoa_base((unsigned char) va_arg(args, int), s, base));
+	else if (!ft_strcmp(length, "ll"))
+		return (ft_static_ultoa_base(va_arg(args, unsigned long long), s, base));
+	else if (*length == 'h')
+		return (ft_static_ultoa_base((unsigned short) va_arg(args, int), s, base));
+	else if (*length == 'l')
+		return (ft_static_ultoa_base(va_arg(args, unsigned long), s, base));
+	return (ft_static_ultoa_base(va_arg(args, unsigned int), s, base));
 }

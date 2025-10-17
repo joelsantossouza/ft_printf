@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 00:35:44 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 14:24:08 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 # include <stdarg.h>
 
-# define IS_CHAR		1
-# define RIGHT_JUSTIFY	2
-# define LEFT_JUSTIFY	4
-# define FORCE_SIGN		8
-# define BLANK_SPACE	16
-# define ALTERN_FORM	32
-# define ZEROES_PAD		64
-# define PRECISION		128
+# define RIGHT_JUSTIFY	1
+# define LEFT_JUSTIFY	2
+# define FORCE_SIGN		4
+# define BLANK_SPACE	8
+# define ALTERN_FORM	16
+# define ZEROES_PAD		32
+# define PRECISION		64
 
 # define STDOUT			1
 
@@ -39,25 +38,26 @@ typedef struct s_spec
 	char	length[3];
 	int		width;
 	int		precision;
+	char	*str;
 }	t_spec;
 
-const char	*convert_int(va_list args, t_spec *spec);
-const char	*convert_uint(va_list args, t_spec *spec,
-				const char *prefix, const char *base);
-const char	*convert_str(va_list args, t_spec *spec);
-const char	*convert_chr(va_list args, t_spec *spec);
-const char	*convert_ptr(va_list args, t_spec *spec);
+int		convert_int(va_list args, const char *length, char **s);
+int		convert_uint(va_list args, const char *length, const char *base, char **s);
 
-void		parse_flags(const char *str, t_spec *spec, const char **endptr);
-void		parse_width(const char *str, va_list args, t_spec *spec,
-				const char **endptr);
-void		parse_precision(const char *str, va_list args, t_spec *spec,
-				const char **endptr);
-void		parse_length(const char *str, t_spec *spec, const char **endptr);
-const char	*get_spec_str(const char *str, va_list args, t_spec *spec,
-				const char **endptr);
+int		int_config(va_list args, t_spec *spec);
+int		uint_config(va_list args, t_spec *spec, const char *prefix, const char *base);
+int		str_config(va_list args, t_spec *spec);
+int		chr_config(va_list args, t_spec *spec);
+int		ptr_config(va_list args, t_spec *spec);
 
-int			ft_printf(const char *format, ...);
-int			ft_fprintf(int fd, const char *format, ...);
+void	parse_flags(const char *str, t_spec *spec, const char **endptr);
+void	parse_width(const char *str, va_list args, t_spec *spec,
+			const char **endptr);
+void	parse_precision(const char *str, va_list args, t_spec *spec,
+				const char **endptr);
+void	parse_length(const char *str, t_spec *spec, const char **endptr);
+int		parse_spec(const char *str, va_list args, t_spec *spec, const char **endptr);
+
+int		ft_printf(const char *format, ...);
 
 #endif
