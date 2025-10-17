@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/17 00:59:24 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/17 01:38:11 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ HEADERS=$(addprefix $(HEADERS_DIR)/, libftprintf.h libft.h)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBS)
-	$(AR) $@ -T $^
+	$(AR) $@ $^
 
 %.o: %.c $(HEADERS)
 	$(CC) $(FLAGS) -c $< -o $@ -I$(HEADERS_DIR)

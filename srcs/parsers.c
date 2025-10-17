@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 00:39:52 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 01:36:49 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,15 @@ void	parse_length(const char *str, t_spec *spec, const char **endptr)
 {
 	*endptr = str;
 	if (!ft_strncmp(*endptr, "hh", 2) || !ft_strncmp(*endptr, "ll", 2))
-		*endptr += ft_strlcpy(spec->length, *endptr, sizeof(spec->length));
+	{
+		ft_strlcpy(spec->length, *endptr, sizeof(spec->length));
+		*endptr += 2;
+	}
 	else if (ft_strchr("hl", **endptr))
-		*endptr += ft_strlcpy(spec->length, *endptr, 2);
+	{
+		ft_strlcpy(spec->length, *endptr, 2);
+		(*endptr)++;
+	}
 }
 
 const char	*get_spec_str(const char *str, va_list args, t_spec *spec,

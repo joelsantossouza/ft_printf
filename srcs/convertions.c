@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 00:37:24 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 02:16:16 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,23 @@ const char	*convert_int(va_list args, t_spec *spec)
 	int		len;
 
 	if (!ft_strcmp(spec->length, "hh"))
-		len = ft_static_ltoa_base((char)va_arg(args, int), &s, DEC);
+		len = ft_static_ltoa_base((char)va_arg(args, int), &s, DEC) - (*s == '-');
 	else if (!ft_strcmp(spec->length, "ll"))
-		len = ft_static_ltoa_base(va_arg(args, long long), &s, DEC);
+		len = ft_static_ltoa_base(va_arg(args, long long), &s, DEC) - (*s == '-');
 	else if (*spec->length == 'h')
-		len = ft_static_ltoa_base((short)va_arg(args, int), &s, DEC);
+		len = ft_static_ltoa_base((short)va_arg(args, int), &s, DEC) - (*s == '-');
 	else if (*spec->length == 'l')
-		len = ft_static_ltoa_base(va_arg(args, long), &s, DEC);
+		len = ft_static_ltoa_base(va_arg(args, long), &s, DEC) - (*s == '-');
 	else
-		len = ft_static_ltoa_base(va_arg(args, int), &s, DEC);
-	if (spec->flags & FORCE_SIGN)
+		len = ft_static_ltoa_base(va_arg(args, int), &s, DEC) - (*s == '-');
+	if (*s == '-')
+		s += ft_strlcpy(spec->prefix, "-", sizeof(spec->prefix));
+	else if (spec->flags & FORCE_SIGN)
 		ft_strlcpy(spec->prefix, "+", sizeof(spec->prefix));
 	else if (spec->flags & BLANK_SPACE)
 		ft_strlcpy(spec->prefix, " ", sizeof(spec->prefix));
 	spec->pad = ' ';
-	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY))
-		|| (spec->flags & PRECISION))
+	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
 	if (!(spec->flags & PRECISION) || spec->precision || *s != '0')
 		spec->precision = ft_max(len, spec->precision);
@@ -60,8 +61,7 @@ const char	*convert_uint(va_list args, t_spec *spec,
 	if (spec->flags & ALTERN_FORM)
 		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
 	spec->pad = ' ';
-	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY))
-		|| (spec->flags & PRECISION))
+	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
 		spec->pad = '0';
 	if (!(spec->flags & PRECISION) || spec->precision || *s != '0')
 		spec->precision = ft_max(len, spec->precision);

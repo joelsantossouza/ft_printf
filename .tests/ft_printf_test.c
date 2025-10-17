@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:31:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/16 23:04:14 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 02:24:48 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ const char	*tests_titles[] = {
 	"Format \'c\'",
 	"Format \'s\'",
 	"Format \'d\' and \'i\'",
-	"Format \'u\'",
-	"Format \'x\'",
-	"Format \'X\'",
-	"Format \'o\'",
+	"Format \'u\', \'x\', \'X\', \'o\'",
 	"Format \'p\'",
 };
 
@@ -129,12 +126,12 @@ int	filecmp(FILE *file, int fd2)
 	{
 		bytes1 = read(fileno(file), buf1, BUF_SIZE);
 		bytes2 = read(fd2, buf2, BUF_SIZE);
-		if (bytes1 <= 0 || bytes2 <= 0 || ft_strncmp(buf1, buf2, BUF_SIZE))
+		if (bytes1 <= 0 || bytes2 <= 0 || ft_strncmp(buf1, buf2, ft_max(bytes1, bytes2)))
 			break ;
 	}
 	rewind(file);
 	lseek(fd2, 0, SEEK_SET);
-	return (ft_strncmp(buf1, buf2, BUF_SIZE));
+	return (ft_strncmp(buf1, buf2, ft_max(bytes1, bytes2)));
 }
 
 void	putfile(int fd)
@@ -395,6 +392,62 @@ ATF_TC_BODY(test06, tc)
 	test("%0.0d", 0);
 	test("%-10.0d", 0);
 	test("%10.-0d", 0);
+	test("%hhd", 2242987429);
+	test("%hhd", -2242987429);
+	test("%-100hhd", -2242987429);
+	test("%100hhd", -2242987429);
+	test("%10.10hhd", 2242987429);
+	test("%#+10.10hhd", 2242987429);
+	test("%+10.10hhd", 2242987429);
+	test("% +10.10hhd", 2242987429);
+	test("% +10.0hhd", 2242987429);
+	test("% +10.0hhd", 0);
+	test("% +10.0hd", 999999999999999999);
+	test("% +10.0hd", -999999999999999999);
+	test("% #++10.0hd", -999999999999999999);
+	test("% #++0.100hd", -999999999999999999);
+	test("% #++0.100hd", 1234);
+	test("% #++0.100hd", -1234);
+	test("%+lld", -1234);
+	test("%+lld", -1023954029817508998);
+	test("%+lld", 10239540298175089988LU);
+	test("%+100lld", 1023954029817508998);
+	test("%+23.12lld", 1023954029817508998);
+	test("%# +23.12lld", 1023954029817508998);
+	test("% + 23.12lld", 1023954029817508998);
+	test("%hd", 2242987429);
+	test("%hd", -2242987429);
+	test("%-100hd", -2242987429);
+	test("%100hd", -2242987429);
+	test("%10.10hd", 2242987429);
+	test("%#+10.10hd", 2242987429);
+	test("%+10.10hd", 2242987429);
+	test("% +10.10hd", 2242987429);
+	test("% +10.0hd", 2242987429);
+	test("% +10.0hd", 0);
+	test("% +10.0ld", 999999999999999999);
+	test("% +10.0ld", -999999999999999999);
+	test("% #++10.0ld", -999999999999999999);
+	test("% #++0.100ld", -999999999999999999);
+	test("% #++0.100ld", 1234);
+	test("% #++0.100ld", -1234);
+	test("%+ld", -1234);
+	test("%+ld", -1023954029817508998);
+	test("%+ld", 10239540298175089988LU);
+	test("%+100ld", 1023954029817508998);
+	test("%+23.12ld", 1023954029817508998);
+	test("%# +23.12ld", 1023954029817508998);
+}
+
+// TEST 07 --> FORMAT u, x, X, o
+ATF_TC(test07);
+ATF_TC_HEAD(test07, tc)
+{
+	atf_tc_set_md_var(tc, "descr", "Testing ft_printf");
+}
+ATF_TC_BODY(test07, tc)
+{
+	printf("\n<test07> %s\n", tests_titles[7]);
 }
 
 // TEST PROGRAM
