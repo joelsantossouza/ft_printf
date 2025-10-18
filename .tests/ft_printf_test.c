@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:31:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 14:27:02 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:57:58 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,6 +334,8 @@ ATF_TC_BODY(test05, tc)
 	test("%-------10.1s", "");
 	test("%+10.100s", "029f029ufh29ufh2-9fh2-");
 	test("%+-100.8s", "029f029ufh29ufh2-9fh2-");
+	test("%+-100.*s", 9, "029f029ufh29ufh2-9fh2-");
+	test("%+-100.*s", 0, "029f029ufh29ufh2-9fh2-");
 }
 
 // TEST 06 --> FORMAT d and i
@@ -688,6 +690,7 @@ ATF_TC_BODY(test08, tc)
 	test("%-00.40p", &var);
 	test("%-50.20p", &var);
 	test("%#-50p", &var);
+	test("%*p", 30, &var);
 }
 
 // TEST PROGRAM
