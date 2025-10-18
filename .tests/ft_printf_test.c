@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:31:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 13:55:46 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:27:02 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -644,8 +644,22 @@ ATF_TC_BODY(test08, tc)
 	test("%0.100p", 0);
 	test("%#10p", 0);
 	test("%-10p", 0);
-	test("%-+ 10p", 0);
-	test("%-+ 10p", 0);
+	test("%010p", 0);
+	test("%050p", 0);
+	test("%050.0p", 0);
+	test("%#050.1p", 0);
+	test("%#050.20p", 0);
+	test("%#050.25p", 0);
+	test("%#0150.25p", 0);
+	test("%#00.p", 0);
+	test("%0.p", 0);
+	test("%.p", 0);
+	test("%--.p", 0);
+	test("%-100.p", 0);
+	test("%-100.240p", 0);
+	test("%-00.40p", 0);
+	test("%-50.20p", 0);
+	test("%#-50p", 0);
 
 	test("%p", &var);
 	test("%10p", &var);
@@ -658,8 +672,22 @@ ATF_TC_BODY(test08, tc)
 	test("%0.100p", &var);
 	test("%#10p", &var);
 	test("%-10p", &var);
-	test("%-+ 10p", &var);
-	test("%-+ 10p", &var);
+	test("%010p", &var);
+	test("%050p", &var);
+	test("%050.0p", &var);
+	test("%#050.1p", &var);
+	test("%#050.20p", &var);
+	test("%#050.25p", &var);
+	test("%#0150.25p", &var);
+	test("%#00.p", &var);
+	test("%0.p", &var);
+	test("%.p", &var);
+	test("%--.p", &var);
+	test("%-100.p", &var);
+	test("%-100.240p", &var);
+	test("%-00.40p", &var);
+	test("%-50.20p", &var);
+	test("%#-50p", &var);
 }
 
 // TEST PROGRAM
