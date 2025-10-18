@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:31:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 12:32:46 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:55:46 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -471,10 +471,7 @@ ATF_TC_BODY(test07, tc)
 	test("%#-10.100llu, %u%hd", -1, 0, 243);
 	test("%-10.1llu, %u%hd", -1, 0, 243);
 	test("%----10.1llu, %u%hd", -1, 0, 243);
-	test("%----10--.1llu, %u%hd", -1, 0, 243);
 	test("%----10.10llu, %u%hd", -1, 0, 243);
-	test("%----10.10lllu, %u%hd", -1, 0, 243);
-	test("%----10.10hlu, %u%hd", -1, 0, 243);
 	test("%----10.10hhu, %u%hd", -1, 0, 243);
 	test("%+ -#-#0.10hhu, %u%hd", -1, 0, 243);
 	test("% -#-#100.10hhu, %u%hd", -1, 0, 243);
@@ -522,14 +519,147 @@ ATF_TC_BODY(test07, tc)
 	test("%#-10.100llx, %u%hd", -1, 0, 243);
 	test("%-10.1llx, %u%hd", -1, 0, 243);
 	test("%----10.1llx, %u%hd", -1, 0, 243);
-	test("%----10--.1llx, %u%hd", -1, 0, 243);
 	test("%----10.10llx, %u%hd", -1, 0, 243);
-	test("%----10.10lllx, %u%hd", -1, 0, 243);
-	test("%----10.10hlx, %u%hd", -1, 0, 243);
 	test("%----10.10hhx, %u%hd", -1, 0, 243);
 	test("%+ -#-#0.10hhx, %x%hx", -1, 0, 243);
 	test("% -#-#100.10hhx, %x%hd", -1, 0, 243);
 	test("%100.10hhx, %x%hx", -1, 0, 243);
+
+	test("%X", -1);
+	test("%X", -2);
+	test("%X", 4294967295);
+	test("%X", 4294967296);
+	test("%X", 4294967296224);
+	test("% +X", 4294967296224);
+	test("% #+X", 4294967296224);
+	test("% # +X", 4294967296224);
+	test("% -# +X", 4294967296224);
+	test("%--X", 4294967296224);
+	test("%--Xwo", -1);
+	test("%--Xyo", -1);
+	test("%--Xuo", -1);
+	test("%  --Xuo", -1);
+	test("%  - -Xuo", -1);
+	test("%%%  - -Xuo", -1);
+	test("%%%  - -lXuo", -1);
+	test("% lXuo", -1);
+	test("% llXuo", -1);
+	test("% hXuo", -1);
+	test("%+hhXuo", -1);
+	test("%+hhX", -1);
+	test("%hhX", -1);
+	test("%hhX, %u%hd", -1, -24, 243);
+	test("%10hhX, %u%hd", -1, -24, 243);
+	test("%010hhX, %u%hd", -1, -24, 243);
+	test("%#010hhX, %u%hd", -1, -24, 243);
+	test("%#-010hhX, %u%hd", -1, -24, 243);
+	test("%#-010hhX, %u%hd", -1, -24, 243);
+	test("%#-0100hhX, %u%hd", -1, -24, 243);
+	test("%#-0100.hhX, %u%hd", 0, 0, 243);
+	test("%#-0100.0hhX, %u%hd", 0, 0, 243);
+	test("%#-0100.10hhX, %u%hd", 0, 0, 243);
+	test("%#0.10hhX, %u%hd", 0, 0, 243);
+	test("%#0.100hhX, %u%hd", 0, 0, 243);
+	test("%#0.100lX, %u%hd", 0, 0, 243);
+	test("%#0.100llX, %u%hd", 0, 0, 243);
+	test("%#0.100llX, %u%hd", -1, 0, 243);
+	test("%#10.100llX, %X%hd", -1, 0, 243);
+	test("%#-10.100llX, %x%hd", -1, 0, 243);
+	test("%-10.1llX, %u%hd", -1, 0, 243);
+	test("%----10.1llX, %u%hd", -1, 0, 243);
+	test("%----10.10llX, %u%hd", -1, 0, 243);
+	test("%----10.10hhX, %X%hd", -1, 0, 243);
+	test("%+ -#-#0.10hhX, %x%hx", -1, 0, 243);
+	test("% -#-#100.10hhX, %x%hd", -1, 0, 243);
+	test("%100.10hhX, %X%hx", -1, 0, 243);
+
+	test("%o", -1);
+	test("%o", -2);
+	test("%o", 4294967295);
+	test("%o", 4294967296);
+	test("%o", 4294967296224);
+	test("% +o", 4294967296224);
+	test("% #+o", 4294967296224);
+	test("% # +o", 4294967296224);
+	test("% -# +o", 4294967296224);
+	test("%--o", 4294967296224);
+	test("%--owo", -1);
+	test("%--oyo", -1);
+	test("%--ouo", -1);
+	test("%  --ouo", -1);
+	test("%  - -ouo", -1);
+	test("%%%  - -ouo", -1);
+	test("%%%  - -louo", -1);
+	test("% louo", -1);
+	test("% llouo", -1);
+	test("% houo", -1);
+	test("%+hhouo", -1);
+	test("%+hho", -1);
+	test("%hho", -1);
+	test("%hho, %u%hd", -1, -24, 243);
+	test("%10hho, %u%hd", -1, -24, 243);
+	test("%010hho, %u%hd", -1, -24, 243);
+	test("%#010hho, %u%hd", -1, -24, 243);
+	test("%#-010hho, %u%hd", -1, -24, 243);
+	test("%#-010hho, %u%hd", -1, -24, 243);
+	test("%#-0100hho, %u%hd", -1, -24, 243);
+	test("%#-0100.hho, %u%hd", 0, 0, 243);
+	test("%#-0100.0hho, %u%hd", 0, 0, 243);
+	test("%#-0100.10hho, %u%hd", 0, 0, 243);
+	test("%#0.10hho, %u%hd", 0, 0, 243);
+	test("%#0.100hho, %u%hd", 0, 0, 243);
+	test("%#0.100lo, %u%hd", 0, 0, 243);
+	test("%#0.100llo, %u%hd", 0, 0, 243);
+	test("%#0.100llo, %u%hd", -1, 0, 243);
+	test("%#10.100llo, %X%hd", -1, 0, 243);
+	test("%#-10.100llo, %x%hd", -1, 0, 243);
+	test("%-10.1llo, %u%hd", -1, 0, 243);
+	test("%----10.1llo, %o%hd", -1, 0, 243);
+	test("%----10.10llo, %u%ho", -1, 0, 243);
+	test("%----10.10hho, %X%ho", -1, 0, 243);
+	test("%+ -#-#0.10hho, %o%hx", -1, 0, 243);
+	test("% -#-#100.10hho, %x%hd", -1, 0, 243);
+	test("%100.10hho, %X%ho", -1, 0, 243);
+}
+
+// TEST 08 --> FORMAT 'p'
+ATF_TC(test08);
+ATF_TC_HEAD(test08, tc)
+{
+	atf_tc_set_md_var(tc, "descr", "Testing ft_printf");
+}
+ATF_TC_BODY(test08, tc)
+{
+	int	var;
+
+	printf("\n<test08> %s\n", tests_titles[8]);
+	test("%p", 0);
+	test("%10p", 0);
+	test("%10.10p", 0);
+	test("%-10.10p", 0);
+	test("%#-10.10p", 0);
+	test("%#-10.100p", 0);
+	test("%-10.100p", 0);
+	test("%10.100p", 0);
+	test("%0.100p", 0);
+	test("%#10p", 0);
+	test("%-10p", 0);
+	test("%-+ 10p", 0);
+	test("%-+ 10p", 0);
+
+	test("%p", &var);
+	test("%10p", &var);
+	test("%10.10p", &var);
+	test("%-10.10p", &var);
+	test("%#-10.10p", &var);
+	test("%#-10.100p", &var);
+	test("%-10.100p", &var);
+	test("%10.100p", &var);
+	test("%0.100p", &var);
+	test("%#10p", &var);
+	test("%-10p", &var);
+	test("%-+ 10p", &var);
+	test("%-+ 10p", &var);
 }
 
 // TEST PROGRAM
@@ -543,6 +673,7 @@ ATF_TP_ADD_TCS(tp)
 	ATF_TP_ADD_TC(tp, test05);
 	ATF_TP_ADD_TC(tp, test06);
 	ATF_TP_ADD_TC(tp, test07);
+	ATF_TP_ADD_TC(tp, test08);
 
 	return (atf_no_error());
 }
