@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:07:10 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 14:15:27 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/18 12:25:30 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 int	int_config(va_list args, t_spec *spec)
 {
-	int	len;
+	const char	zero_pad = (spec->flags & ZERO_PAD) && (spec->flags & RIGHT_JUSTIFY);
+	int			len;
 
 	len = convert_int(args, spec->length, &spec->str);
 	if (*spec->str == '-')
@@ -29,24 +30,35 @@ int	int_config(va_list args, t_spec *spec)
 	else if (spec->flags & BLANK_SPACE)
 		ft_strlcpy(spec->prefix, " ", sizeof(spec->prefix));
 	spec->pad = ' ';
-	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
+	if ((spec->flags & PRECISION) && !spec->precision && *spec->str == '0')
+		return (0);
+	if (zero_pad || (spec->flags & PRECISION))
 		spec->pad = '0';
 	return (len);
 }
 
 int	uint_config(va_list args, t_spec *spec, const char *prefix, const char *base)
 {
+	const char	zero_pad = (spec->flags & ZERO_PAD) && (spec->flags & RIGHT_JUSTIFY);
+	int			len;
+
+	len = convert_uint(args, spec->length, base, &spec->str);
 	if (spec->flags & ALTERN_FORM)
 		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
 	spec->pad = ' ';
-	if (((spec->flags & ZEROES_PAD) && (spec->flags & RIGHT_JUSTIFY)) || (spec->flags & PRECISION))
+	if ((spec->flags & PRECISION) && !spec->precision && *spec->str == '0')
+		return (0);
+	if (zero_pad || (spec->flags & PRECISION))
 		spec->pad = '0';
-	return (convert_uint(args, spec->length, base, &spec->str));
+	return (len);
 }
 
 int	str_config(va_list args, t_spec *spec)
 {
+	const int	precision = spec->precision;
+
 	spec->pad = ' ';
+	spec->precision = 0;
 	spec->str = va_arg(args, char *);
 	if (!spec->str)
 	{
@@ -54,7 +66,7 @@ int	str_config(va_list args, t_spec *spec)
 		return (6);
 	}
 	if (spec->flags & PRECISION)
-		return (ft_strnlen(spec->str, spec->precision));
+		return (ft_strnlen(spec->str, precision));
 	return (ft_strlen(spec->str));
 }
 

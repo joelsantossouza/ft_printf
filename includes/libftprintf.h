@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 14:24:08 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/18 12:20:02 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define FORCE_SIGN		4
 # define BLANK_SPACE	8
 # define ALTERN_FORM	16
-# define ZEROES_PAD		32
+# define ZERO_PAD		32
 # define PRECISION		64
 
 # define STDOUT			1

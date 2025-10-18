@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:31:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 02:24:48 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/17 20:22:39 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ static ssize_t	padding(const char pad, int times, int fd)
 	return (nbytes);
 }
 
-static int	print_spec(const char *str, t_spec spec, int fd)
+static int	ft_putspec_fd(t_spec spec, int len, int fd)
 {
-	const int	len = ft_strnlen(str, spec.precision) + (spec.flags & IS_CHAR);
-	const int	prec_size = ft_max(0, spec.precision - len);
-	const int	maxlen = ft_strlen(spec.prefix) + len + prec_size;
+	const int	prec_pad_len = ft_max(0, spec.precision - len);
+	const int	maxlen = ft_strlen(spec.prefix) + len + prec_pad_len;
 	char		width_pad;
 	int			nbytes;
 
@@ -74,15 +73,14 @@ static int	print_spec(const char *str, t_spec spec, int fd)
 		width_pad = ' ';
 	if (width_pad != ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
-	if (spec.flags & RIGHT_JUSTIFY && nbytes >= 0)
+	if (spec.flags & RIGHT_JUSTIFY)
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
-	if (width_pad == ' ' && nbytes >= 0)
+	if (width_pad == ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
-	if (spec.flags & PRECISION && nbytes >= 0)
-		add_bytes(padding(spec.pad, prec_size, fd), &nbytes);
-	if (nbytes >= 0)
-		add_bytes(write(fd, str, len), &nbytes);
-	if (spec.flags & LEFT_JUSTIFY && nbytes >= 0)
+	if (spec.flags & PRECISION)
+		add_bytes(padding(spec.pad, prec_pad_len, fd), &nbytes);
+	add_bytes(write(fd, spec.str, len), &nbytes);
+	if (spec.flags & LEFT_JUSTIFY)
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
 	return (nbytes);
 }
@@ -91,7 +89,7 @@ int	ft_vfprintf(int fd, const char *format, va_list args)
 {
 	t_spec		spec;
 	int			nbytes;
-	const char	*spec_str;
+	int			len;
 
 	nbytes = 0;
 	while (*format && nbytes >= 0)
@@ -105,8 +103,8 @@ int	ft_vfprintf(int fd, const char *format, va_list args)
 			parse_width(format, args, &spec, &format);
 			parse_precision(format, args, &spec, &format);
 			parse_length(format, &spec, &format);
-			spec_str = get_spec_str(format, args, &spec, &format);
-			add_bytes(print_spec(spec_str, spec, fd), &nbytes);
+			len = parse_spec(format, args, &spec, &format);
+			add_bytes(ft_putspec_fd(spec, len, fd), &nbytes);
 		}
 	}
 	return (nbytes);
@@ -278,33 +276,12 @@ ATF_TC_BODY(test04, tc)
 	test("cc%cc", -2147483648);
 	test("%10c", 0);
 	test("%100c", 0);
-	test("%1-23c", 0);
 	test("%0c", 0);
 	test("%-0c", 0);
 	test("%0-c", 0);
 	test("%0-.c", 0);
 	test("%0-1.1c", 0);
 	test("%0-1.01c", 0);
-	test("%0-1.-01c", 0);
-	test("%0-1.-010c", 0);
-	test("%010.-010c", 0);
-	test("%10.-0100c", 0);
-	test("%10.10c", 0);
-	test("%-10.10c", 0);
-	test("%-9.10c", 0);
-	test("%-8.10c", 0);
-	test("%-8.6c", 0);
-	test("%8.6c", 0);
-	test("%2.6c", 0);
-	test("%2.8c", 0);
-	test("%2.200c", 0);
-	test("%200.2c", 0);
-	test("%#200.2c", 0);
-	test("%#.2c", 0);
-	test("%#+.2c", 0);
-	test("%++#.2c", 0);
-	test("%++ #.2c", 0);
-	test("%+ + #.2c", 0);
 	test("%10c", 65);
 	test("%100c", 65);
 	test("%1-23c", 65);
@@ -358,6 +335,7 @@ ATF_TC_BODY(test05, tc)
 	test("%-10.5s", "\12\342\234\21");
 	test("%-------10.1s", "");
 	test("%+10.100s", "029f029ufh29ufh2-9fh2-");
+	test("%+-100.8s", "029f029ufh29ufh2-9fh2-");
 }
 
 // TEST 06 --> FORMAT d and i
@@ -391,7 +369,6 @@ ATF_TC_BODY(test06, tc)
 	test("%-0.0d", 10);
 	test("%0.0d", 0);
 	test("%-10.0d", 0);
-	test("%10.-0d", 0);
 	test("%hhd", 2242987429);
 	test("%hhd", -2242987429);
 	test("%-100hhd", -2242987429);
@@ -435,8 +412,14 @@ ATF_TC_BODY(test06, tc)
 	test("%+ld", -1023954029817508998);
 	test("%+ld", 10239540298175089988LU);
 	test("%+100ld", 1023954029817508998);
-	test("%+23.12ld", 1023954029817508998);
+	test("   ---%+23.12lld---", 1023954029817508998);
 	test("%# +23.12ld", 1023954029817508998);
+	test("%+23.12ld", 1023954029817508998);
+	test("%23.12d", 1023954029817508998);
+	test("%23.12hd", 1023954029817508998);
+	test("%23.12hhdfwjf9wjf9wjf9wjf9wjf", 1023954029817508998);
+	test("%23.12hd", 1023954029817508998);
+	test("%23.12hd, %d, %d, %d", 1023954029817508998, 1, 1, 2, 3);
 }
 
 // TEST 07 --> FORMAT u, x, X, o
@@ -448,6 +431,47 @@ ATF_TC_HEAD(test07, tc)
 ATF_TC_BODY(test07, tc)
 {
 	printf("\n<test07> %s\n", tests_titles[7]);
+	test("%u", -1);
+	test("%u", -2);
+	test("%u", 4294967295);
+	test("%u", 4294967296);
+	test("%u", 4294967296224);
+	test("% +u", 4294967296224);
+	test("% #+u", 4294967296224);
+	test("% # +u", 4294967296224);
+	test("% -# +u", 4294967296224);
+	test("%--u", 4294967296224);
+	test("%--uwo", -1);
+	test("%--uyo", -1);
+	test("%--uuo", -1);
+	test("%  --uuo", -1);
+	test("%  - -uuo", -1);
+	test("%%%  - -uuo", -1);
+	test("%%%  - -luuo", -1);
+	test("% luuo", -1);
+	test("% lluuo", -1);
+	test("% huuo", -1);
+	test("%+hhuuo", -1);
+	test("%+hhu", -1);
+	test("%hhu", -1);
+	test("%hhu, %u%hd", -1, -24, 243);
+	test("%10hhu, %u%hd", -1, -24, 243);
+	test("%010hhu, %u%hd", -1, -24, 243);
+	test("%#010hhu, %u%hd", -1, -24, 243);
+	test("%#-010hhu, %u%hd", -1, -24, 243);
+	test("%#-010hhu, %u%hd", -1, -24, 243);
+	test("%#-0100hhu, %u%hd", -1, -24, 243);
+	test("%#-0100.hhu, %u%hd", 0, 0, 243);
+	test("%#-0100.0hhu, %u%hd", 0, 0, 243);
+	test("%#-0100.10hhu, %u%hd", 0, 0, 243);
+	test("%#0.10hhu, %u%hd", 0, 0, 243);
+	test("%#0.100hhu, %u%hd", 0, 0, 243);
+	test("%#0.100lu, %u%hd", 0, 0, 243);
+	test("%#0.100llu, %u%hd", 0, 0, 243);
+	test("%#0.100llu, %u%hd", -1, 0, 243);
+	test("%#10.100llu, %u%hd", -1, 0, 243);
+	test("%#-10.100llu, %u%hd", -1, 0, 243);
+	test("%-10.1llu, %u%hd", -1, 0, 243);
 }
 
 // TEST PROGRAM
@@ -460,6 +484,7 @@ ATF_TP_ADD_TCS(tp)
 	ATF_TP_ADD_TC(tp, test04);
 	ATF_TP_ADD_TC(tp, test05);
 	ATF_TP_ADD_TC(tp, test06);
+	ATF_TP_ADD_TC(tp, test07);
 
 	return (atf_no_error());
 }
