@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/25 12:13:42 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/16 20:06:13 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/18 12:33:41 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ FLAGS=-Wall -Wextra -Werror -g
 EXTRA=
 LIBS=../libftprintf.a ../libs/libft/libft.a
 
-.SECONDARY: $(OBJS)
+.SECONDARY: $(OBJS) $(LIBS)
 
 all: $(TEST)
 

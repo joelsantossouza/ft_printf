@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:07:10 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 12:25:30 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/18 12:43:43 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	uint_config(va_list args, t_spec *spec, const char *prefix, const char *base
 	int			len;
 
 	len = convert_uint(args, spec->length, base, &spec->str);
-	if (spec->flags & ALTERN_FORM)
+	if (spec->flags & ALTERN_FORM && *spec->str != '0')
 		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
 	spec->pad = ' ';
 	if ((spec->flags & PRECISION) && !spec->precision && *spec->str == '0')
