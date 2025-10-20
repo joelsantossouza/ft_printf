@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/20 13:04:24 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/20 14:27:34 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,7 @@ AR=ar rcs
 
 all: $(NAME)
 
-echo:
-	echo $(LIBS_OBJS)
-	echo $(INCLUDES)
+bonus: $(NAME)
 
 $(NAME): $(LIBS_OBJS) $(OBJS)
 	$(AR) $@ $^
