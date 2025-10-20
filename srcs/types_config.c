@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:07:10 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 14:19:24 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 10:46:01 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	int_config(va_list args, t_spec *spec)
 {
-	const char	zero_pad = (spec->flags & ZERO_PAD) && (spec->flags & RIGHT_JUSTIFY);
+	const char	zero_pad = (spec->flags & F_ZERO) && !(spec->flags & F_MINUS);
 	int			len;
 
 	len = convert_int(args, spec->length, &spec->str);
@@ -25,9 +25,9 @@ int	int_config(va_list args, t_spec *spec)
 		spec->str++;
 		ft_strlcpy(spec->prefix, "-", sizeof(spec->prefix));
 	}
-	else if (spec->flags & FORCE_SIGN)
+	else if (spec->flags & F_PLUS)
 		ft_strlcpy(spec->prefix, "+", sizeof(spec->prefix));
-	else if (spec->flags & BLANK_SPACE)
+	else if (spec->flags & F_SPACE)
 		ft_strlcpy(spec->prefix, " ", sizeof(spec->prefix));
 	spec->pad = ' ';
 	if ((spec->flags & PRECISION) && !spec->precision && *spec->str == '0')
@@ -37,13 +37,14 @@ int	int_config(va_list args, t_spec *spec)
 	return (len);
 }
 
-int	uint_config(va_list args, t_spec *spec, const char *prefix, const char *base)
+int	uint_config(va_list args, t_spec *spec, const char *prefix,
+		const char *base)
 {
-	const char	zero_pad = (spec->flags & ZERO_PAD) && (spec->flags & RIGHT_JUSTIFY);
+	const char	zero_pad = (spec->flags & F_ZERO) && !(spec->flags & F_MINUS);
 	int			len;
 
 	len = convert_uint(args, spec->length, base, &spec->str);
-	if (spec->flags & ALTERN_FORM && *spec->str != '0')
+	if ((spec->flags & F_HASH) && *spec->str != '0')
 		ft_strlcpy(spec->prefix, prefix, sizeof(spec->prefix));
 	spec->pad = ' ';
 	if ((spec->flags & PRECISION) && !spec->precision && *spec->str == '0')
@@ -82,7 +83,7 @@ int	chr_config(va_list args, t_spec *spec)
 
 int	ptr_config(va_list args, t_spec *spec)
 {
-	const char	zero_pad = (spec->flags & ZERO_PAD) && (spec->flags & RIGHT_JUSTIFY);
+	const char	zero_pad = (spec->flags & F_ZERO) && !(spec->flags & F_MINUS);
 
 	spec->pad = ' ';
 	spec->str = va_arg(args, void *);

@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 14:15:58 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 10:52:30 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,15 @@ int	convert_int(va_list args, const char *length, char **s)
 
 int	convert_uint(va_list args, const char *length, const char *base, char **s)
 {
-	//FIND TYPEDEFS TO UNSIGNEDS
 	if (!ft_strcmp(length, "hh"))
-		return (ft_static_ultoa_base((unsigned char) va_arg(args, int), s, base));
+		return (ft_static_ultoa_base((unsigned char) va_arg(args, int),
+				s, base));
 	else if (!ft_strcmp(length, "ll"))
-		return (ft_static_ultoa_base(va_arg(args, unsigned long long), s, base));
+		return (ft_static_ultoa_base(va_arg(args, unsigned long long),
+				s, base));
 	else if (*length == 'h')
-		return (ft_static_ultoa_base((unsigned short) va_arg(args, int), s, base));
+		return (ft_static_ultoa_base((unsigned short) va_arg(args, int),
+				s, base));
 	else if (*length == 'l')
 		return (ft_static_ultoa_base(va_arg(args, unsigned long), s, base));
 	return (ft_static_ultoa_base(va_arg(args, unsigned int), s, base));
