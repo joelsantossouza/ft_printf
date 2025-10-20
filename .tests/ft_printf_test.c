@@ -6,12 +6,12 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:31:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 15:57:58 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:00:59 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
-#include "../includes/libft.h"
+#include "../ft_printf.h"
+#include "../libs/libft/libft.h"
 #include <atf-c.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -73,14 +73,14 @@ static int	ft_putspec_fd(t_spec spec, int len, int fd)
 		width_pad = ' ';
 	if (width_pad != ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
-	if (spec.flags & RIGHT_JUSTIFY)
+	if (!(spec.flags & F_MINUS))
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
 	if (width_pad == ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
 	if (spec.flags & PRECISION)
 		add_bytes(padding(spec.pad, prec_pad_len, fd), &nbytes);
 	add_bytes(write(fd, spec.str, len), &nbytes);
-	if (spec.flags & LEFT_JUSTIFY)
+	if (spec.flags & F_MINUS)
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
 	return (nbytes);
 }
@@ -152,7 +152,7 @@ void	test(char *str, ...)
 	va_list	args2;
 	int		fd;
 	FILE	*file;
-	char	template[] = "/home/joel/coding/exercises/printf/final/.tests/XXXXXX";
+	char	template[] = "/home/joel/coding/exercises/printf/temp/.tests/XXXXXX";
 	char	*color;
 	int		expected;
 	int		output;
@@ -233,6 +233,7 @@ ATF_TC_BODY(test02, tc)
 	test("%q%q%q%q%q%q%|%^");
 	test("%!!!!!!!!!", "", '4');
 	test("     % ");
+	test("%");
 }
 
 // TEST 03 --> FORMAT %
@@ -332,6 +333,20 @@ ATF_TC_BODY(test05, tc)
 	test("%-.5s", "\12\342\234\21");
 	test("%-10.5s", "\12\342\234\21");
 	test("%-------10.1s", "");
+	test("%#s", 0);
+	test("%-10s", 0);
+	test("%-s", 0);
+	test("%-100s", 0);
+	test("%-1s", 0);
+	test("%31s", 0);
+	test("%1s", 0);
+	test("%#.s", 0);
+	test("%-.10s", 0);
+	test("%-.s", 0);
+	test("%-.100s", 0);
+	test("%-.1s", 0);
+	test("%.31s", 0);
+	test("%.1s", 0);
 	test("%+10.100s", "029f029ufh29ufh2-9fh2-");
 	test("%+-100.8s", "029f029ufh29ufh2-9fh2-");
 	test("%+-100.*s", 9, "029f029ufh29ufh2-9fh2-");
