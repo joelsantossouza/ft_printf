@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/20 11:41:52 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:10:24 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	parse_length(const char *str, t_spec *spec, const char **endptr)
 		ft_strlcpy(spec->length, *endptr, sizeof(spec->length));
 		*endptr += 2;
 	}
-	else if (ft_strchr("hl", **endptr))
+	else if (**endptr && ft_strchr("hl", **endptr))
 	{
 		ft_strlcpy(spec->length, *endptr, 2);
 		(*endptr)++;
@@ -82,7 +82,7 @@ void	parse_length(const char *str, t_spec *spec, const char **endptr)
 
 int	parse_spec(const char *str, va_list args, t_spec *spec, const char **endptr)
 {
-	*endptr = str + 1;
+	*endptr = str + (*str != 0);
 	if (*str == 'd' || *str == 'i')
 		return (int_config(args, spec));
 	else if (*str == 'u')

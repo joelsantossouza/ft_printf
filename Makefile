@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/20 12:19:16 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/20 13:04:24 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ ft_udigit_count.c ft_nbrlen.c ft_abs.c ft_memchr.c ft_mempset.c)
 
 LIBS_OBJS=$(addprefix $(LIBS_DIR)/, $(LIB_SRCS:.c=.o))
 
-INCLUDES=$(addprefix -I, $(dir $(HEADERS)) $(dir $(LIBS_OBJS)))
+INCLUDES=$(addprefix -I, . $(LIBS_DIR)/libft)
 
 CC=cc
-FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes -O3
+FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes
 AR=ar rcs
 
 all: $(NAME)
