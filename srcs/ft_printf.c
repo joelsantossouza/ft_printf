@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:28:51 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/17 14:19:38 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 10:54:50 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ static int	ft_putspec_fd(t_spec spec, int len, int fd)
 		width_pad = ' ';
 	if (width_pad != ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
-	if (spec.flags & RIGHT_JUSTIFY)
+	if (!(spec.flags & F_MINUS))
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
 	if (width_pad == ' ')
 		add_bytes(ft_putstr_fd(spec.prefix, fd), &nbytes);
 	if (spec.flags & PRECISION)
 		add_bytes(padding(spec.pad, prec_pad_len, fd), &nbytes);
 	add_bytes(write(fd, spec.str, len), &nbytes);
-	if (spec.flags & LEFT_JUSTIFY)
+	if (spec.flags & F_MINUS)
 		add_bytes(padding(width_pad, spec.width - maxlen, fd), &nbytes);
 	return (nbytes);
 }

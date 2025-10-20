@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/18 12:19:48 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 10:56:00 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,19 @@ void	parse_flags(const char *str, t_spec *spec, const char **endptr)
 	while (1)
 	{
 		if (**endptr == '-')
-			spec->flags |= LEFT_JUSTIFY;
+			spec->flags |= F_MINUS;
 		else if (**endptr == '+')
-			spec->flags |= FORCE_SIGN;
+			spec->flags |= F_PLUS;
 		else if (**endptr == ' ')
-			spec->flags |= BLANK_SPACE;
+			spec->flags |= F_SPACE;
 		else if (**endptr == '#')
-			spec->flags |= ALTERN_FORM;
+			spec->flags |= F_HASH;
 		else if (**endptr == '0')
-			spec->flags |= ZERO_PAD;
+			spec->flags |= F_ZERO;
 		else
 			break ;
 		(*endptr)++;
 	}
-	if (!(spec->flags & LEFT_JUSTIFY))
-		spec->flags |= RIGHT_JUSTIFY;
 }
 
 void	parse_width(const char *str, va_list args, t_spec *spec,
