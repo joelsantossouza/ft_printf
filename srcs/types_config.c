@@ -6,12 +6,12 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:07:10 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/20 10:46:01 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:42:22 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	int_config(va_list args, t_spec *spec)
 {

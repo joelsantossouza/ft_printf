@@ -6,12 +6,12 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:04 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/20 10:52:30 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:42:14 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	convert_int(va_list args, const char *length, char **s)
 {

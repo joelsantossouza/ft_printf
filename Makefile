@@ -6,7 +6,7 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/18 16:18:57 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/20 12:19:16 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,34 +15,43 @@ NAME=libftprintf.a
 SRCS_DIR=srcs
 SRCS=ft_printf.c parsers.c types_config.c convert_types.c
 OBJS=$(addprefix $(SRCS_DIR)/, $(SRCS:.c=.o))
+HEADERS=ft_printf.h
+
+LIBS_DIR=libs
+LIB_SRCS=$(addprefix libft/, ft_static_ultoa_base.c ft_static_ltoa_base.c \
+ft_putchar_fd.c ft_memset.c ft_max.c ft_strlen.c ft_putstr_fd.c ft_atol_base.c \
+ft_strncmp.c ft_strlcpy.c ft_strnlen.c ft_strchr.c ft_strcmp.c ft_isspace.c \
+ft_udigit_count.c ft_nbrlen.c ft_abs.c ft_memchr.c ft_mempset.c)
+
+LIBS_OBJS=$(addprefix $(LIBS_DIR)/, $(LIB_SRCS:.c=.o))
+
+INCLUDES=$(addprefix -I, $(dir $(HEADERS)) $(dir $(LIBS_OBJS)))
 
 CC=cc
 FLAGS=-Wall -Wextra -Werror -g -Wmissing-declarations -Wmissing-prototypes -O3
 AR=ar rcs
 
-LIBS_DIR=libs
-LIBS=$(addprefix $(LIBS_DIR)/, libft/libft.a)
-
-HEADERS_DIR=includes
-HEADERS=$(addprefix $(HEADERS_DIR)/, libftprintf.h libft.h)
-
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBS)
+echo:
+	echo $(LIBS_OBJS)
+	echo $(INCLUDES)
+
+$(NAME): $(LIBS_OBJS) $(OBJS)
 	$(AR) $@ $^
 
-%.o: %.c $(HEADERS)
-	$(CC) $(FLAGS) -c $< -o $@ -I$(HEADERS_DIR)
-
-%.a:
+$(LIBS_DIR)/%.o:
 	git clone git@github.com:joelsantossouza/$(shell basename $(dir $@)).git $(dir $@)
 	make -C $(dir $@)
+
+%.o: %.c $(HEADERS)
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -rf $(dir $(LIBS))
+	rm -rf $(LIBS_DIR)
 	rm -f $(NAME)
 
 re: fclean all
