@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:29:12 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/20 13:10:24 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/21 10:07:38 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ int	parse_spec(const char *str, va_list args, t_spec *spec, const char **endptr)
 		return (chr_config(args, spec));
 	else if (*str == 'p')
 		return (ptr_config(args, spec));
+	else if (*str == '%')
+		return (perc_config(spec));
 	return (0);
 }

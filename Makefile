@@ -6,14 +6,17 @@
 #    By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 19:26:48 by joesanto          #+#    #+#              #
-#    Updated: 2025/10/20 14:27:34 by joesanto         ###   ########.fr        #
+#    Updated: 2025/10/21 10:09:43 by joesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libftprintf.a
 
+TYPES_CONFIG=$(addprefix types_config/, int_config.c uint_config.c str_config.c \
+ptr_config.c chr_config.c perc_config.c)
+
 SRCS_DIR=srcs
-SRCS=ft_printf.c parsers.c types_config.c convert_types.c
+SRCS=ft_printf.c parsers.c convert_types.c $(TYPES_CONFIG)
 OBJS=$(addprefix $(SRCS_DIR)/, $(SRCS:.c=.o))
 HEADERS=ft_printf.h
 

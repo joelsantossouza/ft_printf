@@ -6,7 +6,7 @@
 /*   By: joesanto <joesanto@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:30:01 by joesanto          #+#    #+#             */
-/*   Updated: 2025/10/20 12:12:54 by joesanto         ###   ########.fr       */
+/*   Updated: 2025/10/21 10:04:58 by joesanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		uint_config(va_list args, t_spec *spec, const char *prefix,
 int		str_config(va_list args, t_spec *spec);
 int		chr_config(va_list args, t_spec *spec);
 int		ptr_config(va_list args, t_spec *spec);
+int		perc_config(t_spec *spec);
 
 void	parse_flags(const char *str, t_spec *spec, const char **endptr);
 void	parse_width(const char *str, va_list args, t_spec *spec,
